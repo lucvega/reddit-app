@@ -2,17 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
-  selectSubreddit,
   fetchPostsIfNeeded,
-  invalidateSubreddit
 } from '../actions/actions'
-import CardPost from '../components/card-post/card-post'
+import CardPost from '../components/card-post/card-posts'
 
 class AsyncApp extends Component {
   constructor(props) {
     super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleRefreshClick = this.handleRefreshClick.bind(this)
   }
 
   componentDidMount() {
@@ -27,28 +23,23 @@ class AsyncApp extends Component {
     }
   }
 
-  handleChange(nextSubreddit) {
-    this.props.dispatch(selectSubreddit(nextSubreddit))
-    this.props.dispatch(fetchPostsIfNeeded(nextSubreddit))
-  }
-
-  handleRefreshClick(e) {
-    e.preventDefault()
-
-    const { dispatch, selectedSubreddit } = this.props
-    dispatch(invalidateSubreddit(selectedSubreddit))
-    dispatch(fetchPostsIfNeeded(selectedSubreddit))
-  }
 
   render() {
     const { posts, isFetching } = this.props
     return (
-      <div>
+      <div className="container">
+
         {isFetching && posts.length === 0 && <h2>Loading...</h2>}
         {!isFetching && posts.length === 0 && <h2>Empty.</h2>}
+
         {posts.length > 0 && (
-          <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-            <CardPost posts={posts} />
+          <div className="row">
+            <div className="col-3">
+              <CardPost posts={posts} />
+            </div>
+
+            <div className="box col-9">
+            </div>
           </div>
         )}
       </div>

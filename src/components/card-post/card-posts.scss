@@ -1,0 +1,31 @@
+.card-posts{
+    .box-title {
+        padding: 16px 0 15px;
+        font-size: 18px;
+        font-weight: bold;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .post-title {
+        font-size: 12px;
+        color: #6a6f8a
+    }
+
+    .post-item {
+        border-bottom: 1px solid #f1f1f1;
+        margin-bottom: 16px;
+
+        .description {
+            font-size: 14px;
+        }
+
+        .comments {
+            font-size: 12px;
+        }
+
+        .close {
+            font-size: 12px;
+            line-height: 18px;
+        }
+    }    
+}
