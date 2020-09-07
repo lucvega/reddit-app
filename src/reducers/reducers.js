@@ -3,13 +3,33 @@ import {
   SELECT_SUBREDDIT,
   INVALIDATE_SUBREDDIT,
   REQUEST_POSTS,
-  RECEIVE_POSTS
+  RECEIVE_POSTS, 
+  SELECT_POST,
+  REMOVE_POST
 } from '../actions/actions'
 
 function selectedSubreddit(state = 'reactjs', action) {
   switch (action.type) {
     case SELECT_SUBREDDIT:
       return action.subreddit
+    default:
+      return state
+  }
+}
+
+function selectedPost(state = null, action) {
+  switch (action.type) {
+    case SELECT_POST:
+      return action.post
+    default:
+      return state
+  }
+}
+
+function removePost(state = null, action) {
+  switch (action.type) {
+    case REMOVE_POST:
+      return action.posts.splice(action.postIndex, 1);
     default:
       return state
   }
@@ -60,7 +80,9 @@ function postsBySubreddit(state = {}, action) {
 
 const rootReducer = combineReducers({
   postsBySubreddit,
-  selectedSubreddit
+  selectedSubreddit, 
+  selectedPost,
+  removePost
 })
 
 export default rootReducer

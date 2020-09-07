@@ -3,12 +3,18 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   fetchPostsIfNeeded,
+  selectPost,
+  removePost
 } from '../actions/actions'
 import CardPost from '../components/card-post/card-posts'
+import PostContent from '../components/post-content/post-content'
 
 class AsyncApp extends Component {
   constructor(props) {
     super(props)
+
+    this.handleChange = this.handleChange.bind(this)
+    this.removeItem = this.removeItem.bind(this)
   }
 
   componentDidMount() {
@@ -17,28 +23,46 @@ class AsyncApp extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.selectedSubreddit !== prevProps.selectedSubreddit) {
+    if (this.props.posts !== prevProps.posts) {
       const { dispatch, selectedSubreddit } = this.props
       dispatch(fetchPostsIfNeeded(selectedSubreddit))
     }
   }
 
+  handleChange(selectedPost) {
+    this.props.dispatch(selectPost(selectedPost))
+  }
+
+  removeItem(e, post) {
+    e.stopPropagation();
+    this.props.dispatch(removePost(post));
+  }
 
   render() {
-    const { posts, isFetching } = this.props
+    const { posts, isFetching, selectedPost } = this.props
     return (
       <div className="container">
 
-        {isFetching && posts.length === 0 && <h2>Loading...</h2>}
-        {!isFetching && posts.length === 0 && <h2>Empty.</h2>}
+        {isFetching && posts.length === 0 && (
+          <div className="row">
+            <div className="col-3">
+              <div className="loading box"></div>
+            </div>
+
+            <div className="col-9">
+              <div className="loading box"></div>
+            </div>
+          </div>
+        )}
 
         {posts.length > 0 && (
           <div className="row">
             <div className="col-3">
-              <CardPost posts={posts} />
+              <CardPost posts={posts} onChange={this.handleChange} removeItem={this.removeItem} />
             </div>
 
-            <div className="box col-9">
+            <div className="col-9">
+              <PostContent selectedPost={selectedPost} />
             </div>
           </div>
         )}
@@ -56,7 +80,8 @@ AsyncApp.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { selectedSubreddit, postsBySubreddit } = state
+  console.log('state', state);
+  const { selectedSubreddit, postsBySubreddit, selectedPost, removeItem } = state
   const { isFetching, lastUpdated, items: posts } = postsBySubreddit[
     selectedSubreddit
   ] || {
@@ -68,7 +93,9 @@ function mapStateToProps(state) {
     selectedSubreddit,
     posts,
     isFetching,
-    lastUpdated
+    lastUpdated,
+    selectedPost,
+    removeItem
   }
 }
 
