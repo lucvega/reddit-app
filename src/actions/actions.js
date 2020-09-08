@@ -6,6 +6,8 @@ export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT'
 export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT'
 export const SELECT_POST = 'SELECT_POST'
 export const REMOVE_POST = 'REMOVE_POST'
+export const VISITED_POST = 'VISITED_POST' 
+export const CLOSE_ALL = 'CLOSE_ALL' 
 
 export function selectSubreddit(subreddit) {
   return {
@@ -25,6 +27,19 @@ export function selectPost(post) {
   return {
     type: SELECT_POST, 
     post
+  }
+}
+
+export function visitedPost(post) {
+  return {
+    type: VISITED_POST, 
+    post
+  }
+}
+
+export function closeAll() {
+  return {
+    type: CLOSE_ALL,
   }
 }
 

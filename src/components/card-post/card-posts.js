@@ -1,31 +1,49 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Moment from 'react-moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComments, faCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faComments, faCircle, faTimes, faTimesCircle, faSyncAlt } from '@fortawesome/free-solid-svg-icons'
 import ReactTooltip from 'react-tooltip';
 import './card-posts.scss';
 
 export default class CardPost extends Component {
 
     render() {
-        const { posts, onChange, removeItem } = this.props;
+        const { posts, onChange, removeItem, closeAll, refresh } = this.props;
 
         return (
             <div className="box card-posts">
-                <h1 className="box-title">Top Posts</h1>
+                <h1 className="box-title">
+                    Top Posts
+
+                    <FontAwesomeIcon
+                        icon={faTimesCircle}
+                        className="float-right mt-1 fa-xs cursor-pointer"
+                        data-tip="Close all"
+                        onClick={() => closeAll()}
+                    />
+
+                    <FontAwesomeIcon
+                        icon={faSyncAlt}
+                        className="float-right mt-1 fa-xs mr-2 cursor-pointer"
+                        data-tip="Refresh"
+                        onClick={() => refresh()}
+                    />
+                </h1>
 
                 <div className="post-wrapper custom-scrollbar">
 
-                    {posts && posts.map((post, i) => (
+                    {posts.length > 0 && posts.map((post, i) => (
                         <div className="row mx-0 post-item" key={i} onClick={() => onChange(post)}>
                             <p className="col-12 p-0 post-title">
                                 Posted by /{post.author} &nbsp;
                                 <Moment unix fromNow>{post.created_utc}</Moment>
-                                <FontAwesomeIcon
-                                    icon={faCircle}
-                                    className="text-danger float-right mt-1 fa-xs"
-                                    data-tip="Unread Post"
-                                />
+                                {!post.visited &&
+                                    <FontAwesomeIcon
+                                        icon={faCircle}
+                                        className="text-danger float-right mt-1 fa-xs"
+                                        data-tip="Unread Post"
+                                    />
+                                }
                             </p>
 
                             <div className="row m-0">
@@ -52,6 +70,15 @@ export default class CardPost extends Component {
                             </div>
                         </div>
                     ))}
+
+                    {posts.length === 0 && (
+                        <Fragment>
+                            <img src={require('../../images/no-posts.jpg')} alt="no-post" className="img-fluid" />
+                            <p className="text-center py-3">I don't have posts</p>
+
+                            <button className="btn btn-primary mx-auto d-block" onClick={() => refresh()}>Get Posts</button>
+                        </Fragment>
+                    )}
                 </div>
 
                 <ReactTooltip />

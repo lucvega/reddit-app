@@ -3,9 +3,11 @@ import {
   SELECT_SUBREDDIT,
   INVALIDATE_SUBREDDIT,
   REQUEST_POSTS,
-  RECEIVE_POSTS, 
+  RECEIVE_POSTS,
   SELECT_POST,
-  REMOVE_POST
+  REMOVE_POST,
+  VISITED_POST,
+  CLOSE_ALL
 } from '../actions/actions'
 
 function selectedSubreddit(state = 'reactjs', action) {
@@ -26,14 +28,15 @@ function selectedPost(state = null, action) {
   }
 }
 
-function removePost(state = null, action) {
+function visitedPost(state = null, action) {
   switch (action.type) {
-    case REMOVE_POST:
-      return action.posts.splice(action.postIndex, 1);
+    case VISITED_POST:
+      return action.post.visited = true
     default:
       return state
   }
 }
+
 
 function posts(
   state = {
@@ -60,6 +63,21 @@ function posts(
         items: action.posts,
         lastUpdated: action.receivedAt
       })
+    case CLOSE_ALL:
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: [],
+        lastUpdated: action.receivedAt,
+        selectedPost: []
+      })
+    case REMOVE_POST:
+      return Object.assign({}, state, console.log('state', state), {
+        isFetching: false,
+        didInvalidate: false,
+        items: state.items,
+        lastUpdated: action.receivedAt
+      })
     default:
       return state
   }
@@ -73,6 +91,14 @@ function postsBySubreddit(state = {}, action) {
       return Object.assign({}, state, {
         [action.subreddit]: posts(state[action.subreddit], action)
       })
+    case CLOSE_ALL:
+      return Object.assign({}, state, {
+        'reactjs': posts(state[action.subreddit], action)
+      })
+    case REMOVE_POST:
+      return Object.assign({}, state, {
+        'reactjs': posts(state[action.subreddit], action)
+      })
     default:
       return state
   }
@@ -80,9 +106,9 @@ function postsBySubreddit(state = {}, action) {
 
 const rootReducer = combineReducers({
   postsBySubreddit,
-  selectedSubreddit, 
+  selectedSubreddit,
   selectedPost,
-  removePost
+  visitedPost
 })
 
 export default rootReducer

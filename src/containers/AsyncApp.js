@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import {
   fetchPostsIfNeeded,
   selectPost,
-  removePost
+  removePost,
+  visitedPost,
+  closeAll,
+  invalidateSubreddit
 } from '../actions/actions'
 import CardPost from '../components/card-post/card-posts'
 import PostContent from '../components/post-content/post-content'
@@ -14,7 +17,9 @@ class AsyncApp extends Component {
     super(props)
 
     this.handleChange = this.handleChange.bind(this)
-    this.removeItem = this.removeItem.bind(this)
+    this.handleRemoveItem = this.handleRemoveItem.bind(this)
+    this.handleCloseAll = this.handleCloseAll.bind(this)
+    this.handleRefreshClick = this.handleRefreshClick.bind(this)
   }
 
   componentDidMount() {
@@ -23,19 +28,30 @@ class AsyncApp extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.posts !== prevProps.posts) {
-      const { dispatch, selectedSubreddit } = this.props
-      dispatch(fetchPostsIfNeeded(selectedSubreddit))
-    }
+    // if (this.props.posts !== prevProps.posts) {
+    //   const { dispatch, selectedSubreddit } = this.props
+    //   dispatch(fetchPostsIfNeeded(selectedSubreddit))
+    // }
   }
 
   handleChange(selectedPost) {
-    this.props.dispatch(selectPost(selectedPost))
+    this.props.dispatch(selectPost(selectedPost));
+    this.props.dispatch(visitedPost(selectedPost));
   }
 
-  removeItem(e, post) {
+  handleRemoveItem(e, post) {
     e.stopPropagation();
     this.props.dispatch(removePost(post));
+  }
+
+  handleCloseAll() {
+    this.props.dispatch(closeAll());
+  }
+
+  handleRefreshClick() {
+    const { dispatch, selectedSubreddit } = this.props
+    dispatch(invalidateSubreddit(selectedSubreddit))
+    dispatch(fetchPostsIfNeeded(selectedSubreddit))
   }
 
   render() {
@@ -43,7 +59,7 @@ class AsyncApp extends Component {
     return (
       <div className="container">
 
-        {isFetching && posts.length === 0 && (
+        {isFetching && (
           <div className="row">
             <div className="col-3">
               <div className="loading box"></div>
@@ -55,10 +71,16 @@ class AsyncApp extends Component {
           </div>
         )}
 
-        {posts.length > 0 && (
+        {!isFetching && (
           <div className="row">
             <div className="col-3">
-              <CardPost posts={posts} onChange={this.handleChange} removeItem={this.removeItem} />
+              <CardPost
+                posts={posts}
+                onChange={this.handleChange}
+                removeItem={this.handleRemoveItem}
+                closeAll={this.handleCloseAll}
+                refresh={this.handleRefreshClick}
+              />
             </div>
 
             <div className="col-9">
@@ -80,8 +102,7 @@ AsyncApp.propTypes = {
 }
 
 function mapStateToProps(state) {
-  console.log('state', state);
-  const { selectedSubreddit, postsBySubreddit, selectedPost, removeItem } = state
+  const { selectedSubreddit, postsBySubreddit, selectedPost, removeItem, closeAll } = state
   const { isFetching, lastUpdated, items: posts } = postsBySubreddit[
     selectedSubreddit
   ] || {
@@ -95,7 +116,8 @@ function mapStateToProps(state) {
     isFetching,
     lastUpdated,
     selectedPost,
-    removeItem
+    removeItem,
+    closeAll
   }
 }
 
