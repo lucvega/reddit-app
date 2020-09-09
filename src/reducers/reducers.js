@@ -23,6 +23,8 @@ function selectedPost(state = null, action) {
   switch (action.type) {
     case SELECT_POST:
       return action.post
+    case CLOSE_ALL:
+      return null
     default:
       return state
   }
@@ -68,14 +70,13 @@ function posts(
         isFetching: false,
         didInvalidate: false,
         items: [],
-        lastUpdated: action.receivedAt,
-        selectedPost: []
+        lastUpdated: action.receivedAt
       })
     case REMOVE_POST:
       return Object.assign({}, state, console.log('state', state), {
         isFetching: false,
         didInvalidate: false,
-        items: state.items,
+        items: state,
         lastUpdated: action.receivedAt
       })
     default:
@@ -93,11 +94,12 @@ function postsBySubreddit(state = {}, action) {
       })
     case CLOSE_ALL:
       return Object.assign({}, state, {
-        'reactjs': posts(state[action.subreddit], action)
+        'reactjs': posts(state[action.subreddit], action),
+        selectedPost: selectedPost([], action)
       })
     case REMOVE_POST:
       return Object.assign({}, state, {
-        'reactjs': posts(state[action.subreddit], action)
+        'reactjs': posts(state['reactjs'].items.filter(item => item !== action.post), action)
       })
     default:
       return state

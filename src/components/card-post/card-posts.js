@@ -32,11 +32,11 @@ export default class CardPost extends Component {
 
                 <div className="post-wrapper custom-scrollbar">
 
-                    {posts.length > 0 && posts.map((post, i) => (
+                    {posts && posts.length > 0 && posts.map((post, i) => (
                         <div className="row mx-0 post-item" key={i} onClick={() => onChange(post)}>
                             <p className="col-12 p-0 post-title">
                                 Posted by /{post.author} &nbsp;
-                                <Moment unix fromNow>{post.created_utc}</Moment>
+                                        <Moment unix fromNow>{post.created_utc}</Moment>
                                 {!post.visited &&
                                     <FontAwesomeIcon
                                         icon={faCircle}
@@ -61,23 +61,23 @@ export default class CardPost extends Component {
                                         icon={faTimes}
                                         className="mr-1"
                                     />
-                                    Close Post
-                                </p>
+                                        Close Post
+                                    </p>
                                 <p className="col-6 px-0 pt-1 comments text-right">
                                     <FontAwesomeIcon icon={faComments} /> &nbsp;
-                            {post.num_comments} Comments
-                        </p>
+                                    {post.num_comments} Comments
+                                </p>
                             </div>
                         </div>
                     ))}
 
-                    {posts.length === 0 && (
-                        <Fragment>
+                    {posts && posts.length === 0 && (
+                        <div className="no-post">
                             <img src={require('../../images/no-posts.jpg')} alt="no-post" className="img-fluid" />
-                            <p className="text-center py-3">I don't have posts</p>
+                            <p className="text-center py-1 py-lg-3 mb-1 mb-lg-3">I don't have posts</p>
 
                             <button className="btn btn-primary mx-auto d-block" onClick={() => refresh()}>Get Posts</button>
-                        </Fragment>
+                        </div>
                     )}
                 </div>
 

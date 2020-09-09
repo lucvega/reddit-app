@@ -10,7 +10,7 @@ export default class PostContent extends Component {
         const { selectedPost } = this.props;
 
         return (
-            <div className="box post-content">
+            <div className="box post-content custom-scrollbar">
 
                 {selectedPost != null && (
                     <div>
