@@ -1,68 +1,55 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# REDDIT REDUX
 
-## Available Scripts
+Frontend Test for @deviget
 
-In the project directory, you can run:
+## DEMO 🚀
 
-### `yarn start`
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+https://redux-reddit.herokuapp.com/
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `yarn test`
+### INSTALL & RUN 🔧
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm i
+```
 
-### `yarn build`
+```
+npm run dev
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## HOW I THINK ⚙️
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+For this project, I started thinking about the basic layout and the components. I wanted to do something functional but with a good design. How I don't have so much experience using redux, I used this tutorial to start to build the basic structure https://redux.js.org/advanced/example-reddit-api 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+I like and enjoy so much build the UI, so once I had the API working I started to adjust more the styles and think a better solution for the cards post.
 
-### `yarn eject`
+After that, I continued adding more small functionality like read post, refresh, close post, close all posts, and time ago.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Once I had all functionality I started with the responsive, at this point I already knew how I want it to look on mobile, so I modify the components and did the design.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## LIBRARIES USED ⚡
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
++ https://fontawesome.com/
++ https://react-bootstrap.github.io/
++ https://github.com/wwayne/react-tooltip
++ https://github.com/headzoo/react-moment
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## TIME SPENT ⏳
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This project took me 5 days, I would have liked to send it before, but at the same time I started with this interview I started in a new project in my actual job and I did not have much free time to do it.
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## TO DO OR THINGS TO IMPROVE ⏳
 
-### Analyzing the Bundle Size
++ Pagination: I don't add pagination because for me don't had so much sense with the design and consider that it was not necessary. I have experience implementing pagination, I have done it in many projects and in different languages. I would have liked very much to implement infinite scroll, I think the design and the application combine really good with this functionality
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
++ Animations: I try to implement libraries like react-transition-group and react-flip-move, also I tried to do manually, but in no case did I achieved a result that convinced me, so I didn't want to waste more time with that.
 
-### Making a Progressive Web App
++ Redux: How I used the tutorial to build the basic structure of redux the actions and reducers was thinking it to receive a category of reddit post. I wanted to finish and send it the app first, and if necessary can restructure that.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## Thank you!
